@@ -1,6 +1,7 @@
 package com.github.tix_measurements.time.client.reporting;
 
 import com.github.tix_measurements.time.client.handler.TixUdpClientHandler;
+import com.github.tix_measurements.time.client.reporting.utils.TixPacketSerDe;
 import com.github.tix_measurements.time.core.data.TixDataPacket;
 import com.github.tix_measurements.time.core.data.TixPacket;
 import com.github.tix_measurements.time.core.data.TixPacketType;
@@ -27,6 +28,7 @@ import java.net.InetSocketAddress;
 import java.net.NetworkInterface;
 import java.net.UnknownHostException;
 import java.nio.channels.SocketChannel;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
@@ -45,10 +47,11 @@ public class Reporter {
     private static final int DEFAULT_SERVER_PORT;
     private static final int MAX_UDP_PACKET_SIZE;
     private static final int LONG_PACKET_MAX_RETRIES; /* how many times will payload with measurement data be sent after every minute */
-    private static final String FILE_NAME; /* file used to persist incoming message data */
     private static final String FILE_EXTENSION;
     private static boolean longPacketReceived;
     private static Path tempFile;
+    //    private static Path permPath;
+    private static String permPathString;
 
     static {
         WORKER_THREADS = 1;
@@ -60,7 +63,6 @@ public class Reporter {
         LONG_PACKET_MAX_RETRIES = 5;
         longPacketReceived = false;
 
-        FILE_NAME = "tempfile";
         FILE_EXTENSION = ".tix";
     }
 
@@ -69,10 +71,11 @@ public class Reporter {
     private final long USER_ID;
     private final long INSTALLATION_ID;
     private final KeyPair KEY_PAIR;
+    private final boolean SAVE_LOGS_LOCALLY;
     private final Logger logger = LogManager.getLogger();
     private final Timer timer = new Timer();
 
-    public Reporter(final long USER_ID, final long INSTALLATION_ID, final KeyPair KEY_PAIR, final int CLIENT_PORT) {
+    public Reporter(final long USER_ID, final long INSTALLATION_ID, final KeyPair KEY_PAIR, final int CLIENT_PORT, final boolean SAVE_LOGS_LOCALLY) {
         this.USER_ID = USER_ID;
         this.INSTALLATION_ID = INSTALLATION_ID;
         this.KEY_PAIR = KEY_PAIR;
@@ -84,6 +87,7 @@ public class Reporter {
             logger.fatal("Could not initialize the default server address");
             throw new Error();
         }
+        this.SAVE_LOGS_LOCALLY = SAVE_LOGS_LOCALLY;
     }
 
     public static void setLongPacketReceived(boolean value) {
@@ -98,7 +102,7 @@ public class Reporter {
         timer.scheduleAtFixedRate(new TimerTask() {
             int i = 0;
             TixPacket shortPacket;
-            TixPacket longPacketWithData;
+            TixDataPacket longPacketWithData;
             byte[] mostRecentData;
             byte[] signature;
 
@@ -123,6 +127,19 @@ public class Reporter {
                         signature = TixCoreUtils.sign(mostRecentData, KEY_PAIR);
                         longPacketWithData = new TixDataPacket(clientAddress, serverAddress, TixCoreUtils.NANOS_OF_DAY.get(), USER_ID, INSTALLATION_ID, KEY_PAIR.getPublic().getEncoded(), mostRecentData, signature);
                         channel.writeAndFlush(longPacketWithData);
+                        if (SAVE_LOGS_LOCALLY) {
+                            try {
+                                Path permPathForFile = FileSystems.getDefault().getPath(permPathString + System.getProperty("file.separator") + System.currentTimeMillis() + ".tix");
+                                if (!Files.exists(permPathForFile)) {
+                                    permPathForFile = Files.createFile(permPathForFile);
+                                }
+                                TixPacketSerDe packetSerDe = new TixPacketSerDe();
+                                Files.write(permPathForFile, packetSerDe.serialize(longPacketWithData), StandardOpenOption.WRITE, StandardOpenOption.SYNC);
+                            } catch (IOException e) {
+                                logger.fatal("Could not create permanent log file", e);
+                                logger.catching(Level.FATAL, e);
+                            }
+                        }
                         try {
                             byte[] emptyByteArray = new byte[0];
                             Files.write(tempFile, emptyByteArray, StandardOpenOption.TRUNCATE_EXISTING);
@@ -205,9 +222,13 @@ public class Reporter {
             InetSocketAddress clientAddress = getClientAddress();
             logger.info("My Address: {}:{}", clientAddress.getAddress(), clientAddress.getPort());
 
-            tempFile = Files.createTempFile(FILE_NAME, FILE_EXTENSION);
+            tempFile = Files.createTempFile("tix-temp-log", FILE_EXTENSION);
             System.out.println(tempFile.toString());
             tempFile.toFile().deleteOnExit();
+
+            permPathString = System.getProperty("user.home") + System.getProperty("file.separator") + "tix-client-logs";
+            final Path permPath = FileSystems.getDefault().getPath(permPathString);
+            final Path permDir = Files.createDirectories(permPath);
 
             Bootstrap b = new Bootstrap();
             b.group(workerGroup)

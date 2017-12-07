@@ -26,6 +26,7 @@ ext {
     log4jVersion = "2.5"
     junitVersion = "4.12"
     mockitoVersion = "1.9.5"
+    jacksonVersion = "2.7.3"
 }
 
 dependencies {
@@ -38,6 +39,9 @@ dependencies {
     compile group: 'org.assertj', name: 'assertj-core', version: "${assertjVersion}"
     compile group: 'org.apache.httpcomponents', name: 'httpclient', version: "${httpComponentsVersion}"
     compile group: 'org.json', name: 'json', version: "${orgJsonVersion}"
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: "${jacksonVersion}"
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: "${jacksonVersion}"
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: "${jacksonVersion}"
 
     // Logging
     compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: "${log4jVersion}"
