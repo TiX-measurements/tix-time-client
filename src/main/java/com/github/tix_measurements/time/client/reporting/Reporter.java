@@ -129,12 +129,12 @@ public class Reporter {
                         channel.writeAndFlush(longPacketWithData);
                         if (SAVE_LOGS_LOCALLY) {
                             try {
-                                Path permPathForFile = FileSystems.getDefault().getPath(permPathString + System.getProperty("file.separator") + System.currentTimeMillis() + ".tix");
+                                Path permPathForFile = FileSystems.getDefault().getPath(permPathString + System.getProperty("file.separator") + System.currentTimeMillis() + "-tix-log.json");
                                 if (!Files.exists(permPathForFile)) {
                                     permPathForFile = Files.createFile(permPathForFile);
                                 }
                                 TixPacketSerDe packetSerDe = new TixPacketSerDe();
-                                Files.write(permPathForFile, packetSerDe.serialize(longPacketWithData), StandardOpenOption.WRITE, StandardOpenOption.SYNC);
+                                Files.write(permPathForFile, new String(packetSerDe.serialize(longPacketWithData)).getBytes("UTF-8"), StandardOpenOption.WRITE, StandardOpenOption.SYNC);
                             } catch (IOException e) {
                                 logger.fatal("Could not create permanent log file", e);
                                 logger.catching(Level.FATAL, e);
