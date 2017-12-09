@@ -105,6 +105,7 @@ public class Reporter {
             TixDataPacket longPacketWithData;
             byte[] mostRecentData;
             byte[] signature;
+            Long nanosOfDay;
 
             @Override
             public void run() {
@@ -125,11 +126,12 @@ public class Reporter {
                         logger.error("No measurements recorded in the last minute");
                     } else {
                         signature = TixCoreUtils.sign(mostRecentData, KEY_PAIR);
-                        longPacketWithData = new TixDataPacket(clientAddress, serverAddress, TixCoreUtils.NANOS_OF_DAY.get(), USER_ID, INSTALLATION_ID, KEY_PAIR.getPublic().getEncoded(), mostRecentData, signature);
+                        nanosOfDay = TixCoreUtils.NANOS_OF_DAY.get();
+                        longPacketWithData = new TixDataPacket(clientAddress, serverAddress, nanosOfDay, USER_ID, INSTALLATION_ID, KEY_PAIR.getPublic().getEncoded(), mostRecentData, signature);
                         channel.writeAndFlush(longPacketWithData);
                         if (SAVE_LOGS_LOCALLY) {
                             try {
-                                Path permPathForFile = FileSystems.getDefault().getPath(permPathString + System.getProperty("file.separator") + System.currentTimeMillis() + "-tix-log.json");
+                                Path permPathForFile = FileSystems.getDefault().getPath(permPathString + System.getProperty("file.separator") + nanosOfDay + "-tix-log.json");
                                 if (!Files.exists(permPathForFile)) {
                                     permPathForFile = Files.createFile(permPathForFile);
                                 }
