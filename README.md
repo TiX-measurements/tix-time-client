@@ -5,12 +5,18 @@ full statistics from it.
 ## How to run the client:
 * GUI mode by using the native installer and running the application
 * GUI mode by running `java -jar fxlauncher.jar` (from command line)
-* CLI mode by using `java -jar fxlauncher.jar username password installation port` (from command line)
+* CLI mode by using `java -jar tix-time-client.jar username password installation port` (from command line)
 
-### How to generate executable jar file:
+### How to generate executable jar file (GUI):
 Clone this repository and run
 ```
 gradle embedApplicationManifest and look for fxlauncher.jar under build/fxlauncher/ dir
+```
+
+### How to generate executable jar file (CLI):
+Clone this repository and run
+```
+gradle :Model and look for tix-time-client.jar under build/libs/ dir
 ```
 
 ### How to generate native installer:

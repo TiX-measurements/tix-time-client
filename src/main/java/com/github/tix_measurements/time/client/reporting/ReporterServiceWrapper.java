@@ -1,5 +1,6 @@
 package com.github.tix_measurements.time.client.reporting;
 
+import com.github.tix_measurements.time.model.reporting.Reporter;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 

@@ -1,4 +1,4 @@
-package com.github.tix_measurements.time.client.reporting.utils;
+package com.github.tix_measurements.time.model.reporting.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

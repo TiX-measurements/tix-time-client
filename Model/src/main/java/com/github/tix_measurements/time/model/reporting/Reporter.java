@@ -1,7 +1,7 @@
-package com.github.tix_measurements.time.client.reporting;
+package com.github.tix_measurements.time.model.reporting;
 
-import com.github.tix_measurements.time.client.handler.TixUdpClientHandler;
-import com.github.tix_measurements.time.client.reporting.utils.TixPacketSerDe;
+import com.github.tix_measurements.time.model.handler.TixUdpClientHandler;
+import com.github.tix_measurements.time.model.reporting.utils.TixPacketSerDe;
 import com.github.tix_measurements.time.core.data.TixDataPacket;
 import com.github.tix_measurements.time.core.data.TixPacket;
 import com.github.tix_measurements.time.core.data.TixPacketType;
@@ -228,7 +228,7 @@ public class Reporter {
             System.out.println(tempFile.toString());
             tempFile.toFile().deleteOnExit();
 
-            permPathString = System.getProperty("user.home") + System.getProperty("file.separator") + "tix-client-logs";
+            permPathString = System.getProperty("user.home") + System.getProperty("file.separator") + "tix-model-logs";
             final Path permPath = FileSystems.getDefault().getPath(permPathString);
             final Path permDir = Files.createDirectories(permPath);
 

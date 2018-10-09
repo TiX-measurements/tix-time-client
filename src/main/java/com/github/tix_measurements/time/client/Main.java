@@ -1,7 +1,7 @@
 package com.github.tix_measurements.time.client;
 
-import com.github.tix_measurements.time.client.reporting.Reporter;
 import com.github.tix_measurements.time.client.reporting.ReporterServiceWrapper;
+import com.github.tix_measurements.time.model.reporting.Reporter;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.concurrent.Worker;
@@ -17,57 +17,19 @@ import java.security.KeyPair;
 import java.util.prefs.Preferences;
 
 public class Main extends Application {
-
     public static Reporter reporter;
-    public static Preferences preferences = Preferences.userRoot().node("/com/tix/client");
-    private static boolean cli = false;
-    private static String username = null;
-    private static String password = null;
-    private static String installation = null;
-    private static int port = -1;
+    public static Preferences preferences = Preferences.userRoot().node("/com/tix/model");
     // application stage is stored so that it can be shown and hidden based on system tray icon operations.
     private Stage aboutStage;
     private Stage prefStage;
 
     public static void main(String[] args) {
-        if (args.length > 0) {
-            cli = true;
-            try {
-                username = args[0].replace("\"", "\\\"");
-            } catch (RuntimeException e) {
-                System.err.println("Username missing.");
-                System.exit(1);
-            }
-            try {
-                password = args[1].replace("\"", "\\\"");
-            } catch (RuntimeException e) {
-                System.err.println("Password missing.");
-                System.exit(1);
-            }
-            try {
-                installation = args[2].replace("\"", "\\\"");
-            } catch (RuntimeException e) {
-                System.err.println("Installation name missing.");
-                System.exit(1);
-            }
-            try {
-                port = Integer.parseInt(args[3]);
-            } catch (RuntimeException e) {
-                System.err.println("Port number missing or cannot be parsed.");
-                System.exit(1);
-            }
-            preferences = Preferences.userRoot().node("/com/tix/client" + installation);
-            Setup.cliLogin(username, password);
-            Setup.cliInstall(installation, port);
-            startReporting();
-        } else {
             Main.launch(args);
-        }
     }
 
     /**
      * Creates a new Reporter instance and activates it.
-     * If client is in GUI mode, it will use a Service Wrapper to instantiate it
+     * If model is in GUI mode, it will use a Service Wrapper to instantiate it
      * as a separate thread.
      */
     public static void startReporting() {
@@ -79,14 +41,9 @@ public class Main extends Application {
         final boolean SAVE_LOGS_LOCALLY = Main.preferences.getBoolean("saveLogsLocally", false);
 
         reporter = new Reporter(USER_ID, INSTALLATION_ID, KEY_PAIR, CLIENT_PORT, SAVE_LOGS_LOCALLY);
-
-        if (cli) {
-            reporter.run();
-        } else {
-            ReporterServiceWrapper reporterServiceWrapper = new ReporterServiceWrapper(reporter);
-            if (reporterServiceWrapper.getState() != Worker.State.RUNNING) {
-                reporterServiceWrapper.start();
-            }
+        ReporterServiceWrapper reporterServiceWrapper = new ReporterServiceWrapper(reporter);
+        if (reporterServiceWrapper.getState() != Worker.State.RUNNING) {
+            reporterServiceWrapper.start();
         }
     }
 
@@ -97,15 +54,13 @@ public class Main extends Application {
      */
     @Override
     public void start(final Stage stage) throws IOException {
-        if (!cli) {
-            setUIProperties(stage);
+        setUIProperties(stage);
 
-            if (!installationExists()) {
-                showSetupStage();
-            } else {
-                startReporting();
-                showLoggedInStage();
-            }
+        if (!installationExists()) {
+            showSetupStage();
+        } else {
+            startReporting();
+            showLoggedInStage();
         }
     }
 
@@ -123,14 +78,14 @@ public class Main extends Application {
         // sets up the tray icon (using awt code run on the swing thread).
         javax.swing.SwingUtilities.invokeLater(this::addAppToTray);
 
-        Parent aboutParent = FXMLLoader.load(getClass().getResource("/fxml/about.fxml"));
+        Parent aboutParent = FXMLLoader.load(getClass().getResource("/resources/fxml/about.fxml"));
         Scene aboutScene = new Scene(aboutParent);
         aboutStage.setScene(aboutScene);
 
         prefStage = new Stage();
         prefStage.setTitle("Preferencias");
 
-        Parent prefParent = FXMLLoader.load(getClass().getResource("/fxml/setup1.fxml"));
+        Parent prefParent = FXMLLoader.load(getClass().getResource("/resources/fxml/setup1.fxml"));
         Scene prefScene = new Scene(prefParent);
         prefStage.setScene(prefScene);
     }
@@ -171,7 +126,7 @@ public class Main extends Application {
             // set up a system tray icon.
             java.awt.SystemTray tray = java.awt.SystemTray.getSystemTray();
 
-            java.awt.Image image = ImageIO.read(getClass().getClassLoader().getResource("images/logo.png"));
+            java.awt.Image image = ImageIO.read(getClass().getClassLoader().getResource("resources/images/logo.png"));
             java.awt.TrayIcon trayIcon = new java.awt.TrayIcon(image);
 
             // if the user double-clicks on the tray icon, show the main app aboutStage.
@@ -237,7 +192,7 @@ public class Main extends Application {
      */
     private void showLoggedInStage() throws IOException {
         if (prefStage != null) {
-            Parent prefParent = FXMLLoader.load(getClass().getResource("/fxml/setup3.fxml"));
+            Parent prefParent = FXMLLoader.load(getClass().getResource("/resources/fxml/setup3.fxml"));
             Scene prefScene = new Scene(prefParent);
             prefStage.setScene(prefScene);
         }

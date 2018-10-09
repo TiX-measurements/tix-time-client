@@ -1,7 +1,7 @@
 package com.github.tix_measurements.time.client.ui;
 
-import com.github.tix_measurements.time.client.Main;
-import com.github.tix_measurements.time.client.Setup;
+import com.github.tix_measurements.time.model.Main;
+import com.github.tix_measurements.time.model.Setup;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -39,7 +39,7 @@ public class Setup2Controller {
             } else if (responseStatusCode == 200) {
                 Main.startReporting();
                 try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/setup3.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/fxml/setup3.fxml"));
                     Parent root = loader.load();
                     createInstallationButton.getScene().setRoot(root);
                 } catch (IOException e) {

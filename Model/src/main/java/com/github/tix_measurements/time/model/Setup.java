@@ -1,4 +1,4 @@
-package com.github.tix_measurements.time.client;
+package com.github.tix_measurements.time.model;
 
 import com.github.tix_measurements.time.core.util.TixCoreUtils;
 import org.apache.commons.lang3.SerializationUtils;
