@@ -16,7 +16,7 @@ gradle embedApplicationManifest and look for fxlauncher.jar under build/fxlaunch
 ### How to generate executable jar file (CLI):
 Clone this repository and run
 ```
-gradle :Model and look for tix-time-client.jar under build/libs/ dir
+gradle :Model:jar and look for tix-time-client.jar under Model/build/libs/ dir
 ```
 
 ### How to generate native installer:
