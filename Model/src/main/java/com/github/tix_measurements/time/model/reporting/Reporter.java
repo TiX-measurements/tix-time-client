@@ -1,6 +1,7 @@
 package com.github.tix_measurements.time.model.reporting;
 
 import com.github.tix_measurements.time.model.handler.TixUdpClientHandler;
+import com.github.tix_measurements.time.model.reporting.utils.ConfigurationReader;
 import com.github.tix_measurements.time.model.reporting.utils.TixPacketSerDe;
 import com.github.tix_measurements.time.core.data.TixDataPacket;
 import com.github.tix_measurements.time.core.data.TixPacket;
@@ -32,7 +33,10 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.security.KeyManagementException;
 import java.security.KeyPair;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Timer;
@@ -53,11 +57,13 @@ public class Reporter {
     //    private static Path permPath;
     private static String permPathString;
 
+    private static final ConfigurationReader configurationReader = ConfigurationReader.getInstance();
+
     static {
         WORKER_THREADS = 1;
-        SERVER_IP = "200.10.202.29";
-        DEFAULT_CLIENT_PORT = 4501;
-        DEFAULT_SERVER_PORT = 4500;
+        SERVER_IP = configurationReader.getIp();
+        DEFAULT_CLIENT_PORT = configurationReader.getClientPort();
+        DEFAULT_SERVER_PORT = configurationReader.getServerPort();
 
         MAX_UDP_PACKET_SIZE = 4096 + 1024;
         LONG_PACKET_MAX_RETRIES = 5;
@@ -75,7 +81,7 @@ public class Reporter {
     private final Logger logger = LogManager.getLogger();
     private final Timer timer = new Timer();
 
-    public Reporter(final long USER_ID, final long INSTALLATION_ID, final KeyPair KEY_PAIR, final int CLIENT_PORT, final boolean SAVE_LOGS_LOCALLY) {
+    public Reporter(final long USER_ID, final long INSTALLATION_ID, final KeyPair KEY_PAIR, final int CLIENT_PORT, final boolean SAVE_LOGS_LOCALLY) throws NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
         this.USER_ID = USER_ID;
         this.INSTALLATION_ID = INSTALLATION_ID;
         this.KEY_PAIR = KEY_PAIR;
@@ -190,7 +196,8 @@ public class Reporter {
                     socket.socket().setSoTimeout(3000);
 
                     socket.bind(new InetSocketAddress(address, 8080));
-                    socket.connect(new InetSocketAddress("tix.innova-red.net", 80));
+                    //socket.connect(new InetSocketAddress("tix.innova-red.net", 80));
+                    socket.connect(new InetSocketAddress("localhost", 80));
                     logger.info("Network Interface: {}, Address: {}", networkInterface, address);
 
                     return new InetSocketAddress(address, CLIENT_PORT);

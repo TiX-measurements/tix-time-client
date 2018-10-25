@@ -1,22 +1,20 @@
 package com.github.tix_measurements.time.model;
 
 import com.github.tix_measurements.time.core.util.TixCoreUtils;
+import com.github.tix_measurements.time.model.reporting.utils.ConfigurationReader;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
-import javax.net.ssl.SSLContext;
 import java.security.KeyPair;
 import java.util.Base64;
+
 
 public class Setup {
 
@@ -24,20 +22,13 @@ public class Setup {
 
     public static int login(final String username, final String password) {
         try {
-            final SSLContext sslContext = new SSLContextBuilder()
-                    .loadTrustMaterial(null, (certificate, authType) -> true).build();
-
-            final CloseableHttpClient client = HttpClients.custom()
-                    .setSSLContext(sslContext)
-                    .setSSLHostnameVerifier(new NoopHostnameVerifier())
-                    .build();
-
-            final HttpPost request = new HttpPost("https://tix.innova-red.net/api/login");
+            ConfigurationReader configurationReader = ConfigurationReader.getInstance();
+            final HttpPost request = new HttpPost(configurationReader.getUrl()+"/api/login");
             final String json = "{\"username\": \"" + username + "\",\"password\": \"" + password + "\"}";
             final StringEntity params = new StringEntity(json, org.apache.http.entity.ContentType.APPLICATION_JSON);
             request.setHeader("Content-Type", "application/json");
             request.setEntity(params);
-
+            CloseableHttpClient client = configurationReader.getCloseableHttpClient();
             final HttpResponse response = client.execute(request);
             int responseStatusCode = response.getStatusLine().getStatusCode();
             if (responseStatusCode == 401) {
@@ -71,14 +62,6 @@ public class Setup {
 
     public static int install(final String installation) {
         try {
-            final SSLContext sslContext = new SSLContextBuilder()
-                    .loadTrustMaterial(null, (certificate, authType) -> true).build();
-
-            final CloseableHttpClient client = HttpClients.custom()
-                    .setSSLContext(sslContext)
-                    .setSSLHostnameVerifier(new NoopHostnameVerifier())
-                    .build();
-
             final int userID = Main.preferences.getInt("userID", 0);
             final byte[] keyPairBytes = SerializationUtils.serialize(TixCoreUtils.NEW_KEY_PAIR.get());
             Main.preferences.putByteArray("keyPair", keyPairBytes);
@@ -87,9 +70,8 @@ public class Setup {
             final String installationInput = installation.trim().replace("\"", "\\\"");
 
             if (userID != 0 && keyPair != null && token != null && installationInput != null) {
-
-                final HttpPost request = new HttpPost("https://tix.innova-red.net/api/user/" + userID + "/installation");
-
+                ConfigurationReader configurationReader = ConfigurationReader.getInstance();
+                final HttpPost request = new HttpPost(configurationReader.getUrl()+"/api/user/" + userID + "/installation");
                 final byte[] pubBytes = Base64.getEncoder().encode(keyPair.getPublic().getEncoded());
                 final String publicString = new String(pubBytes);
 
@@ -98,7 +80,7 @@ public class Setup {
                 request.setHeader("Content-Type", "application/json");
                 request.setHeader("Authorization", "JWT " + token);
                 request.setEntity(params);
-
+                CloseableHttpClient client = configurationReader.getCloseableHttpClient();
                 final HttpResponse response = client.execute(request);
 
                 final int responseStatusCode = response.getStatusLine().getStatusCode();
