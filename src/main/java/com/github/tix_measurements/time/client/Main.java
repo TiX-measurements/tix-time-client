@@ -13,7 +13,10 @@ import org.apache.commons.lang3.SerializationUtils;
 
 import javax.imageio.ImageIO;
 import java.io.IOException;
+import java.security.KeyManagementException;
 import java.security.KeyPair;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.util.prefs.Preferences;
 
 public class Main extends Application {
@@ -32,7 +35,7 @@ public class Main extends Application {
      * If model is in GUI mode, it will use a Service Wrapper to instantiate it
      * as a separate thread.
      */
-    public static void startReporting() {
+    public static void startReporting() throws NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
         final long USER_ID = Main.preferences.getLong("userID", 0L);
         final long INSTALLATION_ID = Main.preferences.getLong("installationID", 0L);
         final byte[] keyPairBytes = Main.preferences.getByteArray("keyPair", null);
@@ -59,7 +62,15 @@ public class Main extends Application {
         if (!installationExists()) {
             showSetupStage();
         } else {
-            startReporting();
+            try {
+                startReporting();
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            } catch (KeyStoreException e) {
+                e.printStackTrace();
+            } catch (KeyManagementException e) {
+                e.printStackTrace();
+            }
             showLoggedInStage();
         }
     }

@@ -15,6 +15,9 @@ import org.apache.logging.log4j.Logger;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 
 public class Setup2Controller {
 
@@ -37,12 +40,12 @@ public class Setup2Controller {
                 // new installation details are incorrect
                 status.setText("Verifique los datos ingresados");
             } else if (responseStatusCode == 200) {
-                Main.startReporting();
                 try {
+                    Main.startReporting();
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/fxml/setup3.fxml"));
                     Parent root = loader.load();
                     createInstallationButton.getScene().setRoot(root);
-                } catch (IOException e) {
+                } catch (IOException | NoSuchAlgorithmException | KeyStoreException | KeyManagementException e) {
                     logger.error("Cannot load setup 3 screen");
                 }
             } else {
