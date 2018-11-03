@@ -78,6 +78,7 @@ public class TixUdpClientHandler extends ChannelInboundHandlerAdapter {
                 longBuffer.clear();
 
                 Files.write(Reporter.getTempFile(), outputStream.toByteArray(), StandardOpenOption.CREATE, StandardOpenOption.APPEND, StandardOpenOption.WRITE, StandardOpenOption.SYNC);
+
             }
 
         } catch (IOException e) {

@@ -2,6 +2,7 @@ package com.github.tix_measurements.time.client.ui;
 
 import com.github.tix_measurements.time.model.Main;
 import com.github.tix_measurements.time.model.Setup;
+import com.github.tix_measurements.time.model.reporting.utils.ConfigurationReader;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,7 +21,7 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 
 public class Setup2Controller {
-
+    private static ConfigurationReader configurationReader = ConfigurationReader.getInstance();
     private static final Logger logger = LogManager.getLogger();
     @FXML
     private Button createInstallationButton;
@@ -58,7 +59,7 @@ public class Setup2Controller {
     @FXML
     private void help() {
         try {
-            Desktop.getDesktop().browse(new URI("http://tix.innova-red.net/"));
+            Desktop.getDesktop().browse(new URI(configurationReader.getUrl()));
         } catch (Exception e) {
             logger.error("Error when opening help URL");
         }

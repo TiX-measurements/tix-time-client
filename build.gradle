@@ -76,10 +76,9 @@ allprojects{
         }
     }
 }
-
-dependencies {
-    compile project(':Model')
-}
+    dependencies {
+        compile project(':Model')
+    }
 
 buildscript {
     repositories {

@@ -146,6 +146,8 @@ public class Reporter {
                             } catch (IOException e) {
                                 logger.fatal("Could not create permanent log file", e);
                                 logger.catching(Level.FATAL, e);
+                            } catch(UnsupportedOperationException e){
+                                logger.error("Error writting to file when saving locally");
                             }
                         }
                         try {
@@ -196,8 +198,8 @@ public class Reporter {
                     socket.socket().setSoTimeout(3000);
 
                     socket.bind(new InetSocketAddress(address, 8080));
-                    //socket.connect(new InetSocketAddress("tix.innova-red.net", 80));
-                    socket.connect(new InetSocketAddress("localhost", 80));
+                    socket.connect(new InetSocketAddress(configurationReader.getIp(), 80));
+                    //socket.connect(new InetSocketAddress("localhost", 80));
                     logger.info("Network Interface: {}, Address: {}", networkInterface, address);
 
                     return new InetSocketAddress(address, CLIENT_PORT);
@@ -206,7 +208,7 @@ public class Reporter {
                 }
             }
         }
-        return new InetSocketAddress(InetAddress.getLocalHost(), CLIENT_PORT);
+        return new InetSocketAddress(InetAddress.getLocalHost().getHostAddress(), CLIENT_PORT);
     }
 
     public Void run() {

@@ -41,7 +41,7 @@ public class Main extends Application {
         final byte[] keyPairBytes = Main.preferences.getByteArray("keyPair", null);
         final KeyPair KEY_PAIR = SerializationUtils.deserialize(keyPairBytes);
         final int CLIENT_PORT = Main.preferences.getInt("clientPort", -1);
-        final boolean SAVE_LOGS_LOCALLY = Main.preferences.getBoolean("saveLogsLocally", false);
+        final boolean SAVE_LOGS_LOCALLY = Main.preferences.getBoolean("saveLogsLocally", true);
 
         reporter = new Reporter(USER_ID, INSTALLATION_ID, KEY_PAIR, CLIENT_PORT, SAVE_LOGS_LOCALLY);
         ReporterServiceWrapper reporterServiceWrapper = new ReporterServiceWrapper(reporter);

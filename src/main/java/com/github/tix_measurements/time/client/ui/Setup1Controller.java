@@ -1,6 +1,7 @@
 package com.github.tix_measurements.time.client.ui;
 
 import com.github.tix_measurements.time.model.Setup;
+import com.github.tix_measurements.time.model.reporting.utils.ConfigurationReader;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,7 +18,7 @@ import java.io.IOException;
 import java.net.URI;
 
 public class Setup1Controller {
-
+    private static ConfigurationReader configurationReader = ConfigurationReader.getInstance();
     private static final Logger logger = LogManager.getLogger();
     @FXML
     private TextField email;
@@ -60,7 +61,7 @@ public class Setup1Controller {
     @FXML
     private void help() {
         try {
-            Desktop.getDesktop().browse(new URI("http://tix.innova-red.net/"));
+            Desktop.getDesktop().browse(new URI(configurationReader.getUrl()));
         } catch (Exception e) {
             logger.error("Error when opening help URL");
         }
