@@ -38,6 +38,9 @@ public class ConfigurationReader {
         return configurationData.getUrl();
     }
 
+    public  String getLogsPath() {return configurationData.getLogsPath();}
+
+    public  boolean isSaveLogsLocally(){return configurationData.isSaveLogsLocally();}
 
     private CloseableHttpClient client;
 
@@ -92,11 +95,20 @@ class ConfigurationData{
     private int serverPort;
     private int clientPort;
     private String url;
+    private String logsPath;
+    private boolean saveLogsLocally;
+
+    public boolean isSaveLogsLocally() {
+        return saveLogsLocally;
+    }
 
     public boolean isHttps() {
         return https;
     }
 
+    public String getLogsPath() {
+        return logsPath;
+    }
 
     public String getIp() {
         return ip;

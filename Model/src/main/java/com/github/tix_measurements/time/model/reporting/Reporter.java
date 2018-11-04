@@ -81,7 +81,7 @@ public class Reporter {
     private final Logger logger = LogManager.getLogger();
     private final Timer timer = new Timer();
 
-    public Reporter(final long USER_ID, final long INSTALLATION_ID, final KeyPair KEY_PAIR, final int CLIENT_PORT, final boolean SAVE_LOGS_LOCALLY) throws NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
+    public Reporter(final long USER_ID, final long INSTALLATION_ID, final KeyPair KEY_PAIR, final int CLIENT_PORT) throws NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
         this.USER_ID = USER_ID;
         this.INSTALLATION_ID = INSTALLATION_ID;
         this.KEY_PAIR = KEY_PAIR;
@@ -93,7 +93,7 @@ public class Reporter {
             logger.fatal("Could not initialize the default server address");
             throw new Error();
         }
-        this.SAVE_LOGS_LOCALLY = SAVE_LOGS_LOCALLY;
+        this.SAVE_LOGS_LOCALLY = configurationReader.isSaveLogsLocally();
     }
 
     public static void setLongPacketReceived(boolean value) {
@@ -237,7 +237,7 @@ public class Reporter {
             System.out.println(tempFile.toString());
             tempFile.toFile().deleteOnExit();
 
-            permPathString = System.getProperty("user.home") + System.getProperty("file.separator") + "tix-model-logs";
+            permPathString = System.getProperty("user.home") + System.getProperty("file.separator") + configurationReader.getLogsPath();
             final Path permPath = FileSystems.getDefault().getPath(permPathString);
             final Path permDir = Files.createDirectories(permPath);
 
