@@ -42,8 +42,9 @@ public class Main extends Application {
         final KeyPair KEY_PAIR = SerializationUtils.deserialize(keyPairBytes);
         final int CLIENT_PORT = Main.preferences.getInt("clientPort", -1);
         final boolean SAVE_LOGS_LOCALLY = Main.preferences.getBoolean("saveLogsLocally", true);
+        final String LOGS_PATH = Main.preferences.get("logsPath","");
 
-        reporter = new Reporter(USER_ID, INSTALLATION_ID, KEY_PAIR, CLIENT_PORT, SAVE_LOGS_LOCALLY);
+        reporter = new Reporter(USER_ID, INSTALLATION_ID, KEY_PAIR, CLIENT_PORT, LOGS_PATH);
         ReporterServiceWrapper reporterServiceWrapper = new ReporterServiceWrapper(reporter);
         if (reporterServiceWrapper.getState() != Worker.State.RUNNING) {
             reporterServiceWrapper.start();

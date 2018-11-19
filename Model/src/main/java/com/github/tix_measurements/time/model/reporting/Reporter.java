@@ -56,6 +56,7 @@ public class Reporter {
     private static Path tempFile;
     //    private static Path permPath;
     private static String permPathString;
+    private  static  String logsPath;
 
     private static final ConfigurationReader configurationReader = ConfigurationReader.getInstance();
 
@@ -81,11 +82,12 @@ public class Reporter {
     private final Logger logger = LogManager.getLogger();
     private final Timer timer = new Timer();
 
-    public Reporter(final long USER_ID, final long INSTALLATION_ID, final KeyPair KEY_PAIR, final int CLIENT_PORT) throws NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
+    public Reporter(final long USER_ID, final long INSTALLATION_ID, final KeyPair KEY_PAIR, final int CLIENT_PORT, final String logsPath) throws NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
         this.USER_ID = USER_ID;
         this.INSTALLATION_ID = INSTALLATION_ID;
         this.KEY_PAIR = KEY_PAIR;
         this.CLIENT_PORT = CLIENT_PORT > 0 ? CLIENT_PORT : DEFAULT_CLIENT_PORT;
+        this.logsPath =logsPath;
         try {
             DEFAULT_SERVER_ADDRESS = new InetSocketAddress(SERVER_IP, DEFAULT_SERVER_PORT);
         } catch (Exception e) {
@@ -93,7 +95,7 @@ public class Reporter {
             logger.fatal("Could not initialize the default server address");
             throw new Error();
         }
-        this.SAVE_LOGS_LOCALLY = configurationReader.isSaveLogsLocally();
+        this.SAVE_LOGS_LOCALLY = true;//configurationReader.isSaveLogsLocally();
     }
 
     public static void setLongPacketReceived(boolean value) {
@@ -237,7 +239,7 @@ public class Reporter {
             System.out.println(tempFile.toString());
             tempFile.toFile().deleteOnExit();
 
-            permPathString = System.getProperty("user.home") + System.getProperty("file.separator") + configurationReader.getLogsPath();
+            permPathString = System.getProperty("user.home") + System.getProperty("file.separator") + logsPath;//configurationReader.getLogsPath();
             final Path permPath = FileSystems.getDefault().getPath(permPathString);
             final Path permDir = Files.createDirectories(permPath);
 

@@ -7,8 +7,6 @@ url:  https://tix.innova-red.net
 ip: 200.10.202.29
 serverPort: 4500
 clientPort: 4501
-logsPath: "tix-model-logs"
-saveLogsLocally: true
 
 #https: false
 #url:  http://localhost:4500

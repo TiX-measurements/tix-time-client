@@ -17,6 +17,7 @@ public class Main {
     private static String password = null;
     private static String installation = null;
     private static int port = -1;
+    private  static String logsPath;
     public static void main(String[] args) {
         if (args.length > 0) {
             try {
@@ -43,7 +44,14 @@ public class Main {
                 System.err.println("Port number missing or cannot be parsed.");
                 System.exit(1);
             }
+            try {
+                 logsPath = args[4].replace("\"", "\\\"");
+            } catch (RuntimeException e) {
+                System.err.println("Port number missing or cannot be parsed.");
+                System.exit(1);
+            }
             preferences = Preferences.userRoot().node("/com/tix/model" + installation);
+            preferences.put("logsPath", logsPath);
             Setup.cliLogin(username, password);
             Setup.cliInstall(installation, port);
             try {
@@ -67,9 +75,12 @@ public class Main {
         final byte[] keyPairBytes = Main.preferences.getByteArray("keyPair", null);
         final KeyPair KEY_PAIR = SerializationUtils.deserialize(keyPairBytes);
         final int CLIENT_PORT = Main.preferences.getInt("clientPort", -1);
+        final String LOGS_PATH = Main.preferences.get("logsPath","");
+
+
         //final boolean SAVE_LOGS_LOCALLY = Main.preferences.getBoolean("saveLogsLocally", true);
 
-        reporter = new Reporter(USER_ID, INSTALLATION_ID, KEY_PAIR, CLIENT_PORT);
+        reporter = new Reporter(USER_ID, INSTALLATION_ID, KEY_PAIR, CLIENT_PORT, LOGS_PATH);
         reporter.run();
     }
 }
