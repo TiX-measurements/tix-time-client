@@ -45,7 +45,7 @@ public class Main {
                 System.exit(1);
             }
             try {
-                 logsPath = args[4].replace("\"", "\\\"");
+                logsPath = args[4].replace("\"", "\\\"");
             } catch (RuntimeException e) {
                 System.err.println("Port number missing or cannot be parsed.");
                 System.exit(1);
@@ -53,7 +53,9 @@ public class Main {
             preferences = Preferences.userRoot().node("/com/tix/model" + installation);
             preferences.put("logsPath", logsPath);
             Setup.cliLogin(username, password);
-            Setup.cliInstall(installation, port);
+            if (!installationExists()){
+                Setup.cliInstall(installation, port);
+            }
             try {
                 startReporting();
             } catch (NoSuchAlgorithmException e) {
@@ -82,5 +84,22 @@ public class Main {
 
         reporter = new Reporter(USER_ID, INSTALLATION_ID, KEY_PAIR, CLIENT_PORT, LOGS_PATH);
         reporter.run();
+    }
+    /**
+     * Checks whether user has already set up the application before.
+     */
+    private static boolean installationExists() {
+
+        int userID = 0;
+        byte[] keyPair = null;
+        int installationID = 0;
+        try {
+            userID = preferences.getInt("userID", 0);
+            keyPair = preferences.getByteArray("keyPair", null);
+            installationID = preferences.getInt("installationID", 0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return (userID > 0) && (keyPair != null) && (installationID > 0);
     }
 }
