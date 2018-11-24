@@ -139,7 +139,7 @@ public class Reporter {
                         channel.writeAndFlush(longPacketWithData);
                         if (SAVE_LOGS_LOCALLY) {
                             try {
-                                Path permPathForFile = FileSystems.getDefault().getPath(permPathString + System.getProperty("file.separator") + nanosOfDay + "-tix-log.json");
+                                Path permPathForFile = FileSystems.getDefault().getPath(permPathString + System.getProperty("file.separator") + System.currentTimeMillis() + "-tix-log.json");
                                 if (!Files.exists(permPathForFile)) {
                                     permPathForFile = Files.createFile(permPathForFile);
                                 }
