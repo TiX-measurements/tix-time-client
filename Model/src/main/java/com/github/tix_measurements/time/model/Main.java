@@ -47,7 +47,7 @@ public class Main {
             try {
                 logsPath = args[4].replace("\"", "\\\"");
             } catch (RuntimeException e) {
-                System.err.println("Port number missing or cannot be parsed.");
+                System.err.println("Logs dir missing or cannot be parsed.");
                 System.exit(1);
             }
             preferences = Preferences.userRoot().node("/com/tix/model" + installation);

@@ -5,7 +5,12 @@ full statistics from it.
 ## How to run the client:
 * GUI mode by using the native installer and running the application
 * GUI mode by running `java -jar fxlauncher.jar` (from command line)
-* CLI mode by using `java -jar tix-time-client.jar username password installation port` (from command line)
+* CLI mode by using `java -jar tix-time-client.jar username password installation port logs_dir` (from command line)
+
+### Prerequisites
+
+* Java 8
+* Gradle 3
 
 ### How to generate executable jar file (GUI):
 Clone this repository and run
