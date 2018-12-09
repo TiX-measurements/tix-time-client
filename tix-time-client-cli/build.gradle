@@ -1,0 +1,18 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+    }
+}
+
+configurations {
+    jar.archiveName = 'tix-time-client-cli.jar'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.github.tix_measurements.time.client.console.Main'
+    }
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+}
