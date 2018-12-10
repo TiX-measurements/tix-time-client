@@ -22,9 +22,9 @@ serverPort: <server-port>
 clientPort: <client-port>
 ```
 
-If you only want to run the client locally without deploying it, you can leave the `deployTargetUrl` parameter blank.
+If you only want to run the client locally without deploying it, you can leave the `deployTargetUrl` parameter as an empty string.
 
-If you want to run the client in GUI mode locally, the `clientRepositoryUrl` should match the url you will use to host the client repository specified in the **Running the client** section below.
+If you want to run the client in GUI mode locally, the `clientRepositoryUrl` should match the url you will use to host the client repository, as specified in the **Running the client** section below.
 
 After configuring the [Application.yml](tix-time-client-cli/src/main/resources/Application.yml), the only step left is to generate the executable jar files.
 
