@@ -23,7 +23,7 @@ public class Setup {
     public static int login(final String username, final String password) {
         try {
             ConfigurationReader configurationReader = ConfigurationReader.getInstance();
-            final HttpPost request = new HttpPost(configurationReader.getUrl()+"/api/login");
+            final HttpPost request = new HttpPost(configurationReader.getServerUrl()+"/api/login");
             final String json = "{\"username\": \"" + username + "\",\"password\": \"" + password + "\"}";
             final StringEntity params = new StringEntity(json, org.apache.http.entity.ContentType.APPLICATION_JSON);
             request.setHeader("Content-Type", "application/json");
@@ -71,7 +71,7 @@ public class Setup {
 
             if (userID != 0 && keyPair != null && token != null && installationInput != null) {
                 ConfigurationReader configurationReader = ConfigurationReader.getInstance();
-                final HttpPost request = new HttpPost(configurationReader.getUrl()+"/api/user/" + userID + "/installation");
+                final HttpPost request = new HttpPost(configurationReader.getServerUrl()+"/api/user/" + userID + "/installation");
                 final byte[] pubBytes = Base64.getEncoder().encode(keyPair.getPublic().getEncoded());
                 final String publicString = new String(pubBytes);
 
