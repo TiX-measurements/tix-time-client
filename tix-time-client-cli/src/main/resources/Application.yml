@@ -1,8 +1,8 @@
-clientRepositoryUrl: https://tix.innova-red.net/downloads/assets/
-deployTarget: 'jperezcu@tix.innova-red.net:/var/www/downloads/assets'
+clientRepositoryUrl: '<client-repository-url>'
+deployTargetUrl:  '<deploy-target-url>'
 
-webApiUrl:  https://tix.innova-red.net
+webApiUrl:  '<web-api-url>'
 
-serverIp: 200.10.202.29
-serverPort: 4500
-clientPort: 4501
+serverIp: '<server-ip>'
+serverPort: <server-port>
+clientPort: <client-port>
