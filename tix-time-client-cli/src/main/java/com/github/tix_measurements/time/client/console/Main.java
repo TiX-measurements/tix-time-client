@@ -19,7 +19,6 @@ public class Main {
     private static int port = -1;
     private  static String logsPath;
 
-
     public static void main(String[] args) {
         if (args.length > 0) {
             try {
