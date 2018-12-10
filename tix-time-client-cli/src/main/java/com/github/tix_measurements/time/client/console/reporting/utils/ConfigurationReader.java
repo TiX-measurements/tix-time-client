@@ -38,10 +38,6 @@ public class ConfigurationReader {
         return configurationData.getWebApiUrl();
     }
 
-    public String getClientRepositoryUrl() {
-        return configurationData.getClientRepositoryUrl();
-    }
-
     private CloseableHttpClient client;
 
     public ConfigurationReader(){
@@ -95,11 +91,11 @@ public class ConfigurationReader {
 }
 class ConfigurationData{
     private String clientRepositoryUrl;
+    private String deployTarget;
     private String webApiUrl;
     private String serverIp;
     private int serverPort;
     private int clientPort;
-
 
     public String getServerIp() {
         return serverIp;
@@ -117,7 +113,5 @@ class ConfigurationData{
     public String getWebApiUrl() {
         return webApiUrl;
     }
-    public String getClientRepositoryUrl() {
-        return clientRepositoryUrl;
-    }
+
 }
