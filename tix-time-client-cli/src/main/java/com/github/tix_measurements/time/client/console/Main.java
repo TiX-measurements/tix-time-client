@@ -57,6 +57,7 @@ public class Main {
             if (!installationExists()){
                 Setup.cliInstall(installation, port);
             }
+
             try {
                 startReporting();
             } catch (NoSuchAlgorithmException e) {
