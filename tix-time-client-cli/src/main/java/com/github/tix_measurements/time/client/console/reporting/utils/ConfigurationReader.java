@@ -114,4 +114,12 @@ class ConfigurationData{
         return webApiUrl;
     }
 
+    public String getclientRepositoryUrl() {
+        return clientRepositoryUrl;
+    }
+
+    public String getDeployTarget() {
+        return deployTarget;
+    }
+
 }
