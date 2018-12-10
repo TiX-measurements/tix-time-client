@@ -8,6 +8,7 @@ buildscript {
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
     }
+    
     dependencies {
         classpath 'no.tornado:fxlauncher-gradle-plugin:1.0.17'
         classpath group: 'org.yaml', name: 'snakeyaml', version: '1.7'
@@ -23,6 +24,6 @@ fxlauncher {
     // applicationUrl cfg.url+'/downloads/assets/'
     applicationUrl 'http://localhost:8000'
     applicationMainClass 'com.github.tix_measurements.time.client.gui.Main'
-    deployTarget 'jperezcu@tix.innova-red.net:/var/www/downloads/assets'
+    //deployTarget 'jperezcu@tix.innova-red.net:/var/www/downloads/assets'
     cacheDir 'USERLIB/tix-time-client'
 }

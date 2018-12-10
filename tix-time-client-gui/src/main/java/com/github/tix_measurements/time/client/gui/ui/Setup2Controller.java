@@ -43,7 +43,7 @@ public class Setup2Controller {
             } else if (responseStatusCode == 200) {
                 try {
                     Main.startReporting();
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/fxml/setup3.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/setup3.fxml"));
                     Parent root = loader.load();
                     createInstallationButton.getScene().setRoot(root);
                 } catch (IOException | NoSuchAlgorithmException | KeyStoreException | KeyManagementException e) {

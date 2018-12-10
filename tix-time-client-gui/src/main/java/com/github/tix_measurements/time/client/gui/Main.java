@@ -21,7 +21,7 @@ import java.util.prefs.Preferences;
 
 public class Main extends Application {
     public static Reporter reporter;
-    public static Preferences preferences = Preferences.userRoot().node("/com/tix/model");
+    public static Preferences preferences = Preferences.userRoot().node("/com/tix/client");
     // application stage is stored so that it can be shown and hidden based on system tray icon operations.
     private Stage aboutStage;
     private Stage prefStage;
@@ -89,14 +89,14 @@ public class Main extends Application {
 
         // sets up the tray icon (using awt code run on the swing thread).
         javax.swing.SwingUtilities.invokeLater(this::addAppToTray);
-        Parent aboutParent = FXMLLoader.load(getClass().getResource("/resources/fxml/about.fxml"));
+        Parent aboutParent = FXMLLoader.load(getClass().getResource("/fxml/about.fxml"));
         Scene aboutScene = new Scene(aboutParent);
         aboutStage.setScene(aboutScene);
 
         prefStage = new Stage();
         prefStage.setTitle("Preferencias");
 
-        Parent prefParent = FXMLLoader.load(getClass().getResource("/resources/fxml/setup1.fxml"));
+        Parent prefParent = FXMLLoader.load(getClass().getResource("/fxml/setup1.fxml"));
         Scene prefScene = new Scene(prefParent);
         prefStage.setScene(prefScene);
     }
@@ -137,7 +137,7 @@ public class Main extends Application {
             // set up a system tray icon.
             java.awt.SystemTray tray = java.awt.SystemTray.getSystemTray();
 
-            java.awt.Image image = ImageIO.read(getClass().getClassLoader().getResource("resources/images/logo.png"));
+            java.awt.Image image = ImageIO.read(getClass().getClassLoader().getResource("images/logo.png"));
             java.awt.TrayIcon trayIcon = new java.awt.TrayIcon(image);
 
             // if the user double-clicks on the tray icon, show the main app aboutStage.
@@ -203,7 +203,7 @@ public class Main extends Application {
      */
     private void showLoggedInStage() throws IOException {
         if (prefStage != null) {
-            Parent prefParent = FXMLLoader.load(getClass().getResource("/resources/fxml/setup3.fxml"));
+            Parent prefParent = FXMLLoader.load(getClass().getResource("/fxml/setup3.fxml"));
             Scene prefScene = new Scene(prefParent);
             prefStage.setScene(prefScene);
         }

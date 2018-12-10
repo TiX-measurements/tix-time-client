@@ -46,7 +46,7 @@ public class Setup1Controller {
                 status.setText("Verifique los datos ingresados");
             } else if (responseStatusCode == 200) {
                 try {
-                    Parent page = FXMLLoader.load(getClass().getResource("/resources/fxml/setup2.fxml"));
+                    Parent page = FXMLLoader.load(getClass().getResource("/fxml/setup2.fxml"));
                     connectButton.getScene().setRoot(page);
                 } catch (IOException e) {
                     logger.error("Cannot load setup 2 screen");

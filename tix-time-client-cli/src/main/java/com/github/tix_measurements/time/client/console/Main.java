@@ -12,12 +12,13 @@ import java.util.prefs.Preferences;
 public class Main {
 
     public static Reporter reporter;
-    public static Preferences preferences = Preferences.userRoot().node("/com/tix/model");
+    public static Preferences preferences = Preferences.userRoot().node("/com/tix/client");
     private static String username = null;
     private static String password = null;
     private static String installation = null;
     private static int port = -1;
     private  static String logsPath;
+
     public static void main(String[] args) {
         if (args.length > 0) {
             try {
@@ -47,10 +48,10 @@ public class Main {
             try {
                 logsPath = args[4].replace("\"", "\\\"");
             } catch (RuntimeException e) {
-                System.err.println("Logs dir missing or cannot be parsed.");
+                System.err.println("Logs directory missing or cannot be parsed.");
                 System.exit(1);
             }
-            preferences = Preferences.userRoot().node("/com/tix/model" + installation);
+            preferences = Preferences.userRoot().node("/com/tix/client" + installation);
             preferences.put("logsPath", logsPath);
             Setup.cliLogin(username, password);
             if (!installationExists()){
