@@ -34,10 +34,13 @@ public class ConfigurationReader {
         return configurationData.getClientPort();
     }
 
-    public String getServerUrl() {
-        return configurationData.getServerUrl();
+    public String getWebApiUrl() {
+        return configurationData.getWebApiUrl();
     }
 
+    public String getClientRepositoryUrl() {
+        return configurationData.getClientRepositoryUrl();
+    }
 
     private CloseableHttpClient client;
 
@@ -69,7 +72,7 @@ public class ConfigurationReader {
         return instance;
     }
     private boolean serverIsHttps(){
-        String serverUrl = configurationData.getServerUrl();
+        String serverUrl = configurationData.getWebApiUrl();
         return serverUrl.matches("(https://).*");
     }
     private void setCloseableHttpClient() throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
@@ -91,7 +94,8 @@ public class ConfigurationReader {
     }
 }
 class ConfigurationData{
-    private String serverUrl;
+    private String clientRepositoryUrl;
+    private String webApiUrl;
     private String serverIp;
     private int serverPort;
     private int clientPort;
@@ -110,7 +114,10 @@ class ConfigurationData{
         return clientPort;
     }
 
-    public String getServerUrl() {
-        return serverUrl;
+    public String getWebApiUrl() {
+        return webApiUrl;
+    }
+    public String getClientRepositoryUrl() {
+        return clientRepositoryUrl;
     }
 }
