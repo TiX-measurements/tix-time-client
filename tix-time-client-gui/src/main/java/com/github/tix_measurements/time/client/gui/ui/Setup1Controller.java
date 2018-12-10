@@ -61,7 +61,7 @@ public class Setup1Controller {
     @FXML
     private void help() {
         try {
-            Desktop.getDesktop().browse(new URI(configurationReader.getUrl()));
+            Desktop.getDesktop().browse(new URI(configurationReader.getServerUrl()));
         } catch (Exception e) {
             logger.error("Error when opening help URL");
         }

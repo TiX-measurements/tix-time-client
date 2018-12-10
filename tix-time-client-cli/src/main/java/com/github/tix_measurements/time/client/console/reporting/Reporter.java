@@ -62,7 +62,7 @@ public class Reporter {
 
     static {
         WORKER_THREADS = 1;
-        SERVER_IP = configurationReader.getIp();
+        SERVER_IP = configurationReader.getServerIp();
         DEFAULT_CLIENT_PORT = configurationReader.getClientPort();
         DEFAULT_SERVER_PORT = configurationReader.getServerPort();
 
@@ -200,8 +200,7 @@ public class Reporter {
                     socket.socket().setSoTimeout(3000);
 
                     socket.bind(new InetSocketAddress(address, 8080));
-                    socket.connect(new InetSocketAddress(configurationReader.getIp(), 80));
-                    //socket.connect(new InetSocketAddress("localhost", 80));
+                    socket.connect(new InetSocketAddress(configurationReader.getServerIp(), 80));
                     logger.info("Network Interface: {}, Address: {}", networkInterface, address);
 
                     return new InetSocketAddress(address, CLIENT_PORT);
@@ -239,7 +238,7 @@ public class Reporter {
             System.out.println(tempFile.toString());
             tempFile.toFile().deleteOnExit();
 
-            permPathString = System.getProperty("user.home") + System.getProperty("file.separator") + logsPath;//configurationReader.getLogsPath();
+            permPathString = System.getProperty("user.home") + System.getProperty("file.separator") + logsPath;
             final Path permPath = FileSystems.getDefault().getPath(permPathString);
             final Path permDir = Files.createDirectories(permPath);
 

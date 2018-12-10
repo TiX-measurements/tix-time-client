@@ -22,8 +22,8 @@ import java.util.Map;
 public class ConfigurationReader {
     private static ConfigurationReader instance = null;
     private ConfigurationData configurationData;
-    public String getIp() {
-        return configurationData.getIp();
+    public String getServerIp() {
+        return configurationData.getServerIp();
     }
 
     public int getServerPort() {
@@ -34,13 +34,10 @@ public class ConfigurationReader {
         return configurationData.getClientPort();
     }
 
-    public String getUrl() {
-        return configurationData.getUrl();
+    public String getServerUrl() {
+        return configurationData.getServerUrl();
     }
 
-    public  String getLogsPath() {return configurationData.getLogsPath();}
-
-    public  boolean isSaveLogsLocally(){return configurationData.isSaveLogsLocally();}
 
     private CloseableHttpClient client;
 
@@ -71,8 +68,12 @@ public class ConfigurationReader {
 
         return instance;
     }
+    private boolean serverIsHttps(){
+        String serverUrl = configurationData.getServerUrl();
+        return serverUrl.matches("(https://).*");
+    }
     private void setCloseableHttpClient() throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
-        if (configurationData.isHttps()) {
+        if (serverIsHttps()) {
             final SSLContext sslContext = new SSLContextBuilder()
                     .loadTrustMaterial(null, (certificate, authType) -> true).build();
 
@@ -90,28 +91,14 @@ public class ConfigurationReader {
     }
 }
 class ConfigurationData{
-    private boolean https;
-    private String ip;
+    private String serverUrl;
+    private String serverIp;
     private int serverPort;
     private int clientPort;
-    private String url;
-    private String logsPath;
-    private boolean saveLogsLocally;
 
-    public boolean isSaveLogsLocally() {
-        return saveLogsLocally;
-    }
 
-    public boolean isHttps() {
-        return https;
-    }
-
-    public String getLogsPath() {
-        return logsPath;
-    }
-
-    public String getIp() {
-        return ip;
+    public String getServerIp() {
+        return serverIp;
     }
 
     public int getServerPort() {
@@ -123,7 +110,7 @@ class ConfigurationData{
         return clientPort;
     }
 
-    public String getUrl() {
-        return url;
+    public String getServerUrl() {
+        return serverUrl;
     }
 }

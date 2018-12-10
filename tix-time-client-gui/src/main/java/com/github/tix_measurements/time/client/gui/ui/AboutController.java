@@ -15,7 +15,7 @@ public class AboutController {
     @FXML
     private void openWebsite() {
         try {
-            Desktop.getDesktop().browse(new URI(configurationReader.getUrl()));
+            Desktop.getDesktop().browse(new URI(configurationReader.getServerUrl()));
         } catch (Exception e) {
             logger.error("Error when opening help URL");
         }
