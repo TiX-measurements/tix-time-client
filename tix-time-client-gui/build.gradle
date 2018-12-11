@@ -23,6 +23,6 @@ fxlauncher {
     applicationVendor 'TiX'
     applicationUrl cfg.clientRepositoryUrl
     applicationMainClass 'com.github.tix_measurements.time.client.gui.Main'
-    deployTarget cfg.deployTarget
+    deployTarget cfg.deployTargetUrl
     cacheDir 'USERLIB/tix-time-client'
 }

@@ -105,7 +105,6 @@ class ConfigurationData{
         return serverPort;
     }
 
-
     public int getClientPort() {
         return clientPort;
     }
