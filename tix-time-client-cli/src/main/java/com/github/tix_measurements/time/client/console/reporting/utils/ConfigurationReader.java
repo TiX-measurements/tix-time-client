@@ -91,7 +91,7 @@ public class ConfigurationReader {
 }
 class ConfigurationData{
     private String clientRepositoryUrl;
-    private String deployTarget;
+    private String deployTargetUrl;
     private String webApiUrl;
     private String serverIp;
     private int serverPort;
@@ -114,12 +114,12 @@ class ConfigurationData{
         return webApiUrl;
     }
 
-    public String getclientRepositoryUrl() {
+    public String getClientRepositoryUrl() {
         return clientRepositoryUrl;
     }
 
-    public String getDeployTarget() {
-        return deployTarget;
+    public String getDeployTargetUrl() {
+        return deployTargetUrl;
     }
 
 }
