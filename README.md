@@ -79,4 +79,4 @@ The installer will be located in `build/installer/bundles/`
 gradle :tix-time-client-gui:deployApp
 ```
 
-The deploy will simply copy all the files in `tix-time-client-gui/build/fxlauncher/` to the directory specified in the `deployTargetUrl` in the[Application.yml](tix-time-client-cli/src/main/resources/Application.yml)
+The deploy will simply copy all the files in `tix-time-client-gui/build/fxlauncher/` to the directory specified in the `deployTargetUrl` in the [Application.yml](tix-time-client-cli/src/main/resources/Application.yml). The url can be local or remote. Bear in mind that if the location is remote, the url `<user>@<deploy-target-ip>:<directory>` must indicate a valid user with write access to the directory.
