@@ -53,7 +53,7 @@ cd tix-time-client-gui/build/fxlauncher/
 python3 -m http.server <port>
 ```
 
-This script will mount a local server in http://localhost:<port> to roleplay the client repository. **Before compiling** in GUI mode, you should change the `clientRepositoryUrl` in the [Application.yml](tix-time-client-cli/src/main/resources/Application.yml) to this local URL.
+This script will mount a local server in `http://localhost:<port>` to roleplay the client repository. **Before compiling** in GUI mode, you should change the `clientRepositoryUrl` in the [Application.yml](tix-time-client-cli/src/main/resources/Application.yml) to this local URL.
 
 
 ## Running the client
