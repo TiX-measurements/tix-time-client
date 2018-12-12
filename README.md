@@ -13,7 +13,7 @@ In order to be able to compile the client, the file [Application.yml](tix-time-c
 
 ```yaml
 clientRepositoryUrl: '<client-repository-url>'
-deployTargetUrl:  '<deploy-target-url>'
+deployTarget:  '<deploy-target>'
 
 webApiUrl:  '<web-api-url>'
 
@@ -23,7 +23,7 @@ clientPort: <client-port>
 ```
 
 * `clientRepositoryUrl`: The URL where the jars of the client will be located. When running the client in GUI mode, the contents of **tix-time-client-gui/build/fxlauncher/** need to be hosted in this URL (see the **GUI mode** section below for an example on how to do this), since the client will retreive those jars when starting. This parameter can be left as an empty string when running in CLI mode.
-* `deployTargetUrl`: The location where the jars of the client will be deployed (see the **Deployng the client** section). This location can be local or remote. Bear in mind that if the location is remote, such as `<user>@<deploy-target-ip>:<directory>`, it must indicate a valid user with write access to the directory. If you only want to run the client locally without deploying it, you can leave this parameter as an empty string.
+* `deployTarget`: The location where the jars of the client will be deployed (see the **Deployng the client** section). This location can be local or remote. Bear in mind that if the location is remote, such as `<user>@<deploy-target-ip>:<directory>`, it must indicate a valid user with write access to the directory. If you only want to run the client locally without deploying it, you can leave this parameter as an empty string.
 * `webApiUrl`: The URL where the web API from TiX is hosted. For more information, refer to [tix-api](https://github.com/TiX-measurements/tix-api)
 * `serverIp`: The server IP from TiX to which UDP messages from the client will be sent. For more information, refer to [tix-time-server](https://github.com/TiX-measurements/tix-time-server)
 * `serverPort`: The port corresponding to the `serverIp`.
@@ -77,4 +77,4 @@ The installer will be located in `build/installer/bundles/`
 gradle :tix-time-client-gui:deployApp
 ```
 
-The deploy will simply copy all the files in `tix-time-client-gui/build/fxlauncher/` to the directory specified in the `deployTargetUrl` in the [Application.yml](tix-time-client-cli/src/main/resources/Application.yml).
+The deploy will simply copy all the files in `tix-time-client-gui/build/fxlauncher/` to the directory specified in `deployTarget` in the [Application.yml](tix-time-client-cli/src/main/resources/Application.yml).

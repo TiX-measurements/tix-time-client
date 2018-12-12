@@ -1,5 +1,5 @@
 clientRepositoryUrl: '<client-repository-url>'
-deployTargetUrl:  '<deploy-target-url>'
+deployTarget:  '<deploy-target>'
 
 webApiUrl:  '<web-api-url>'
 
