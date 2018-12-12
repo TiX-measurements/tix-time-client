@@ -13,7 +13,7 @@ In order to be able to compile the client, the file [Application.yml](tix-time-c
 
 ```yaml
 clientRepositoryUrl: '<client-repository-url>'
-deployTargetUrl:  '<deploy-target-url>'
+deployTargetUrl:  '<deploy-target>'
 
 webApiUrl:  '<web-api-url>'
 
@@ -22,7 +22,12 @@ serverPort: <server-port>
 clientPort: <client-port>
 ```
 
-If you only want to run the client locally without deploying it, you can leave the `deployTargetUrl` parameter as an empty string.
+* `clientRepositoryUrl`: The URL where the jars of the client will be located. When running the client in GUI mode, the contents of **tix-time-client-gui/build/fxlauncher/** need to be hosted in this URL, since the client will retreive those jars when starting. This parameter can be left as an empty string when running in CLI mode.
+* `deployTargetUrl`: The location where the jars of the client will be deployed (see the **Deployng the client** section). Note that write access will be required to this location. If you only want to run the client locally without deploying it, you can leave this parameter as an empty string.
+* `webApiUrl`: The web API URL from TiX.
+* `serverIp`: The server IP from TiX to which messages from the client will be sent.
+* `serverPort`: The port corresponding to the `serverIp`.
+* `clientPort`: The port to be used by the client on the connection with the server.
 
 If you want to run the client in GUI mode locally, the `clientRepositoryUrl` should match the url you will use to host the client repository, as specified in the **Running the client** section below.
 
@@ -41,6 +46,16 @@ gradle :tix-time-client-gui:embedApplicationManifest
 ```
 After executing this command, the jars will be located in `tix-time-client-gui/build/fxlauncher/`
 
+If you want to run the GUI mode locally, you will need a local repository on which the application is hosted. Therefore it is recommended to follow these steps:
+
+```
+cd tix-time-client-gui/build/fxlauncher/
+python3 -m http.server <port>
+```
+
+This script will mount a local server in http://localhost:<port> to roleplay the client repository. **Before compiling** in GUI mode, you should change the `clientRepositoryUrl` in the [Application.yml](tix-time-client-cli/src/main/resources/Application.yml) to this local URL.
+
+
 ## Running the client
 
 There are three ways of running the client:
@@ -48,16 +63,6 @@ There are three ways of running the client:
 * CLI mode by running `java -jar tix-time-client-cli/build/libs/tix-time-client.jar username password installation port logs_directory`
 * GUI mode by running `java -jar tix-time-client-gui/build/fxlauncher/fxlauncher.jar`
 * GUI mode by using the native installer and running the application
-
-
-If you want to run the GUI mode locally with changes in the source code, you will need a local repository on which the application is hosted. Therefore it is recommended to follow these steps:
-
-```
-cd tix-time-client-gui/build/fxlauncher/
-python3 -m http.server <port>
-```
-
-This script will mount a local server in http://localhost:<port> to roleplay the client repository. **Before compiling** in GUI mode, you should change the `clientRepositoryUrl` in the [Application.yml](tix-time-client-cli/src/main/resources/Application.yml) to this local url.
 
 ## Generating native installer
 
