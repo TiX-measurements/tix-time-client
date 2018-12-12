@@ -13,7 +13,7 @@ In order to be able to compile the client, the file [Application.yml](tix-time-c
 
 ```yaml
 clientRepositoryUrl: '<client-repository-url>'
-deployTargetUrl:  '<deploy-target>'
+deployTargetUrl:  '<deploy-target-url>'
 
 webApiUrl:  '<web-api-url>'
 
