@@ -22,7 +22,7 @@ serverPort: <server-port>
 clientPort: <client-port>
 ```
 
-* `clientRepositoryUrl`: The URL where the jars of the client will be located. When running the client in GUI mode, the contents of **tix-time-client-gui/build/fxlauncher/** need to be hosted in this URL, since the client will retreive those jars when starting. This parameter can be left as an empty string when running in CLI mode.
+* `clientRepositoryUrl`: The URL where the jars of the client will be located. When running the client in GUI mode, the contents of **tix-time-client-gui/build/fxlauncher/** need to be hosted in this URL (see the **GUI mode** section below for an example on how to do this), since the client will retreive those jars when starting. This parameter can be left as an empty string when running in CLI mode.
 * `deployTargetUrl`: The location where the jars of the client will be deployed (see the **Deployng the client** section). Note that write access will be required to this location. If you only want to run the client locally without deploying it, you can leave this parameter as an empty string.
 * `webApiUrl`: The web API URL from TiX.
 * `serverIp`: The server IP from TiX to which messages from the client will be sent.
