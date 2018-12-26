@@ -6,6 +6,7 @@ TiX Time Client is the application that runs on the client. Its task is to send 
 In order to compile and run the tix time client, the following dependencies are required:
 * Java 8
 * Gradle 3.3
+* Java Packager Tool (only for generating native installer)
 
 ## Installing
 
@@ -58,7 +59,7 @@ This script will mount a local server in `http://localhost:<port>` to roleplay t
 
 There are three ways of running the client:
 
-* CLI mode by running `java -jar tix-time-client-cli/build/libs/tix-time-client.jar username password installation port logs_directory`
+* CLI mode by running `java -jar tix-time-client-cli/build/libs/tix-time-client-cli.jar username password installation port logs_directory`
 * GUI mode by running `java -jar tix-time-client-gui/build/fxlauncher/fxlauncher.jar`
 * GUI mode by using the native installer and running the application
 
