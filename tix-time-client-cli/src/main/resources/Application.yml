@@ -1,0 +1,8 @@
+clientRepositoryUrl: '<client-repository-url>'
+deployTarget:  '<deploy-target>'
+
+webApiUrl:  '<web-api-url>'
+
+serverIp: '<server-ip>'
+serverPort: <server-port>
+clientPort: <client-port>
